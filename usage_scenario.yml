@@ -1,0 +1,25 @@
+---
+name: Test-alpha
+author: xiaoxuan
+version: 1
+description: Discover petri nets using alpha.
+
+services:
+  Test_alpha_Container:
+    image: python:3.9
+    build: .
+    setup-commands:
+      - python3 -m pip install pm4py
+      - WORKDIR /app
+      - COPY ./* /app/
+    volumes:
+      - .:/app  # 将当前目录挂载到容器的 /app 目录
+
+flow:
+  - name: Test alpha
+    container: Test_alpha_Container
+    commands:
+      - type: console
+        command: python3 /app/alpha_test.py
+        detach: true
+        note: Running alpha
