@@ -7,7 +7,10 @@ description: Discover petri nets using alpha.
 services:
   Test_alpha_Container:
     image: python:3.9
-    build: .
+    build:
+      context: .    # 确保context路径正确，即使Dockerfile在项目的当前目录
+    volumes:
+      - .:/app      # 将当前目录挂载到容器的/app目录
     setup-commands:
       - python3 -m pip install pm4py
 
@@ -16,6 +19,6 @@ flow:
     container: Test_alpha_Container
     commands:
       - type: console
-        command: python3 /tmp/repo/alpha_test.py
+        command: python3 /app/alpha_test.py
         detach: true
         note: Running alpha
